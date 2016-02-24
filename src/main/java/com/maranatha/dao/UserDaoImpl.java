@@ -1,22 +1,26 @@
 package com.maranatha.dao;
 
 import java.util.List;
-import com.maranatha.model.User;
-import com.util.HibernateUtil;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Repository("userQualifier")
-public class UserDAOImpl implements UserDAO {
+import com.maranatha.model.User;
+import com.util.HibernateUtil;
+
+//@Repository("userQualifier")
+@Repository
+public class UserDaoImpl implements UserDAO {
 
 	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-    
+
+
+
+
 	public void save(User u) {
 		Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
