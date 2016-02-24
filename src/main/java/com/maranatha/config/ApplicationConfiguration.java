@@ -9,9 +9,13 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+@EnableSwagger2
 @Configuration
 @ComponentScan(basePackages = "com.maranatha") 
+//@ComponentScan
+
 public class ApplicationConfiguration{
 
 	@Bean
@@ -21,7 +25,7 @@ public class ApplicationConfiguration{
                 .apiInfo(apiInfo())
                 .select()
                 //.paths(regex("/navigation/pages.*"))
-            	.paths(PathSelectors.any())      
+                .paths(PathSelectors.any())      
             	.build();
     }
 	

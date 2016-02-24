@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maranatha.dao.UserDAO;
 import com.maranatha.model.User;
+import com.wordnik.swagger.annotations.ApiImplicitParam;
+import com.wordnik.swagger.annotations.ApiImplicitParams;
  
 @RestController
+//@EnableAutoConfiguration
+
 public class UserRestController {
 
 	//autowired is always by type, @qualifier is use for autowired by name 
@@ -22,12 +26,14 @@ public class UserRestController {
 	
 
 	
-	
+
 	@RequestMapping("/users")
     public List<User> getAllUsers() {
 		return userDaoImpl.list();
     }
-	
+	@ApiImplicitParams({
+        @ApiImplicitParam(name = "person", value = "Type user", required = false, dataType = "string", paramType = "path" , defaultValue="BOARD")
+      })
 	@RequestMapping("/user/{person}")
     public User getUser(@PathVariable String person) {
 		return userDaoImpl.getUser(person);
