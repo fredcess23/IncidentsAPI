@@ -41,6 +41,10 @@ public class User {
 		this.locationId = locationId;
 	}
 
+	public User(Integer id){
+		this.id = id;
+	}
+			
 	public User(Integer id, String name, String lastName, String password, String type, Integer age){
 		this.id = id;
 		this.name = name;

@@ -8,6 +8,7 @@ public interface UserDAO {
 	public void save(User p);
     public List<User> list();
 	public void addUser(User person);
-	public User search(String name);
+	public void removeUser(Integer personId);
+	public List<User>  search(String name);
 
 }

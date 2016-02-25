@@ -1,5 +1,6 @@
 package com.maranatha.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -20,8 +21,6 @@ public class UserDaoImpl implements UserDAO {
 	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 
-
-
 	public void save(User u) {
 		Session session = this.sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
@@ -39,14 +38,15 @@ public class UserDaoImpl implements UserDAO {
         return personList;
 	}
 	
-	public User search(String name) {
-		User user=null;
+	public List<User> search(String name) {
+		List<User> user=null;
 		try{
 			Session session = this.sessionFactory.openSession();
 	        Criteria cr=session.createCriteria(User.class);
 	        //cr.add(Restrictions.eq("name", name));
 	        cr.add(Restrictions.ilike("name", name,MatchMode.ANYWHERE));
-	        user = (User) cr.list().get(0);
+	        //user = (User) cr.list().get(0);
+	        user = (List<User>) cr.list();
 	        session.close();			
 		}
 		catch(Exception e){
@@ -64,6 +64,16 @@ public class UserDaoImpl implements UserDAO {
 
         //Commit the transaction
         session.getTransaction().commit();		
+	}
+
+	public void removeUser(Integer personId) {
+		Session session = this.sessionFactory.openSession();
+        session.beginTransaction();
+        
+        User person = (User) session.get(User.class, personId);
+        session.delete(person);
+        
+        session.getTransaction().commit();
 	}
 
 }

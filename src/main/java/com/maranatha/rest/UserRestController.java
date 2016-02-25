@@ -36,12 +36,17 @@ public class UserRestController {
 
 
 	@RequestMapping(value="/users/{person}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User searchPerson(@PathVariable("person")  String person) {
+    public List<User>  searchPerson(@PathVariable("person")  String person) {
 		return userDaoImpl.search(person);
     }
 
 	@RequestMapping(value="/users/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addUser(@RequestBody  User person) {
 		userDaoImpl.addUser(person);
+    }
+	
+	@RequestMapping(value="/users/remove/{personId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeUser(@PathVariable("personId")  Integer personId) {
+		userDaoImpl.removeUser(personId);
     }
 }
