@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maranatha.dao.UserDAO;
 import com.maranatha.model.User;
-import com.wordnik.swagger.annotations.ApiImplicitParam;
-import com.wordnik.swagger.annotations.ApiImplicitParams;
  
 @RestController
 //@EnableAutoConfiguration
@@ -44,9 +42,17 @@ public class UserRestController {
     public void addUser(@RequestBody  User person) {
 		userDaoImpl.addUser(person);
     }
-	
+
+
 	@RequestMapping(value="/users/remove/{personId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void removeUser(@PathVariable("personId")  Integer personId) {
 		userDaoImpl.removeUser(personId);
     }
+	
+	
+	@RequestMapping(value="/users/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean login(@RequestBody  User person) {
+		return userDaoImpl.login(person);
+    }
+	
 }

@@ -1,6 +1,5 @@
 package com.maranatha.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -75,5 +74,29 @@ public class UserDaoImpl implements UserDAO {
         
         session.getTransaction().commit();
 	}
+
+	@Override
+	public boolean login(User person) {
+	
+		boolean flag=false;
+		
+		try{
+			Session session = this.sessionFactory.openSession();
+	        Criteria cr=session.createCriteria(User.class);
+	        cr.add(Restrictions.eq("username", person.getUsername()));
+	        cr.add(Restrictions.eq("password", person.getPassword()));
+	        
+	        if(cr.list().size() > 0){
+	        	flag = true;
+	        }
+	        session.close();			
+		}
+		catch(Exception e){
+			System.out.println("Error");
+		}
+       
+        return flag;
+	}
+
 
 }
