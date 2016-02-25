@@ -7,7 +7,7 @@ public interface UserDAO {
 
 	public void save(User p);
     public List<User> list();
-	public User getUser(String name);
+	public void addUser(User person);
 	public User search(String name);
 
 }

@@ -56,8 +56,14 @@ public class UserDaoImpl implements UserDAO {
         return user;
 	}
 
-	public User getUser(String name) {
-		return null;
+	public void addUser(User person) {
+		Session session = this.sessionFactory.openSession();
+        session.beginTransaction();
+        //Save the employee in database
+        session.saveOrUpdate(person);
+
+        //Commit the transaction
+        session.getTransaction().commit();		
 	}
 
 }
