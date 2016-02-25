@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -38,13 +39,25 @@ public class UserDaoImpl implements UserDAO {
         return personList;
 	}
 	
-	public User getUser(String name) {
-        Session session = this.sessionFactory.openSession();
-        Criteria cr=session.createCriteria(User.class);
-        cr.add(Restrictions.eq("name", name));
-        User user = (User) cr.list().get(0);
-        session.close();
+	public User search(String name) {
+		User user=null;
+		try{
+			Session session = this.sessionFactory.openSession();
+	        Criteria cr=session.createCriteria(User.class);
+	        //cr.add(Restrictions.eq("name", name));
+	        cr.add(Restrictions.ilike("name", name,MatchMode.ANYWHERE));
+	        user = (User) cr.list().get(0);
+	        session.close();			
+		}
+		catch(Exception e){
+			System.out.println("Error");
+		}
+       
         return user;
+	}
+
+	public User getUser(String name) {
+		return null;
 	}
 
 }

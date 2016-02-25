@@ -32,12 +32,11 @@ public class UserRestController {
     public List<User> getAllUsers() {
 		return userDaoImpl.list();
     }
-	@ApiImplicitParams({
-        @ApiImplicitParam(name = "person", value = "Type user", required = false, dataType = "string", paramType = "path" , defaultValue="BOARD")
-      })
-	@RequestMapping("/user/{person}")
-    public User getUser(@PathVariable String person) {
-		return userDaoImpl.getUser(person);
+
+
+	@RequestMapping(value="/users/{person}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User searchPerson(@PathVariable("person")  String person) {
+		return userDaoImpl.search(person);
     }
 
 }
