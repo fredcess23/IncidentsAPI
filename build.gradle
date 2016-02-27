@@ -20,6 +20,8 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'org.springframework.boot:spring-boot-starter-test:1.2.2.RELEASE'
+    
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile("org.hibernate:hibernate-core:5.0.6.Final")
     compile 'dom4j:dom4j:1.6.1'
@@ -28,6 +30,10 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.0.1'
     compile 'io.springfox:springfox-swagger-ui:2.0.2'
     compile 'mysql:mysql-connector-java:5.1.13'
+    compile 'commons-httpclient:commons-httpclient:3.1'
+  	testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+  
+  	
 }
 
 test {

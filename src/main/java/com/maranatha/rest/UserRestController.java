@@ -32,8 +32,12 @@ public class UserRestController {
 		return userDaoImpl.list();
     }
 
+	@RequestMapping(value="/users/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User  getPersonByUserName(@PathVariable("username")  String username) {
+		return userDaoImpl.getUser(username);
+    }
 
-	@RequestMapping(value="/users/{person}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/users/search/{person}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User>  searchPerson(@PathVariable("person")  String person) {
 		return userDaoImpl.search(person);
     }

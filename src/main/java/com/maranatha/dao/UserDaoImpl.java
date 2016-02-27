@@ -98,5 +98,23 @@ public class UserDaoImpl implements UserDAO {
         return flag;
 	}
 
+	@Override
+	public User getUser(String name) {
+
+		User user=null;
+		try{
+			Session session = this.sessionFactory.openSession();
+	        Criteria cr=session.createCriteria(User.class);
+	        cr.add(Restrictions.eq("username", name));
+	        user = (User) cr.list().get(0);
+	        session.close();			
+		}
+		catch(Exception e){
+			System.out.println("Error");
+		}
+       
+        return user;
+	}
+
 
 }
