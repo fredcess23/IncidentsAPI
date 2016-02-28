@@ -9,5 +9,6 @@
     <property name="hibernate.connection.password">daysyman</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="com.maranatha.model.User" />
+    <mapping class="com.maranatha.model.CatIncident" />
   </session-factory>
 </hibernate-configuration>

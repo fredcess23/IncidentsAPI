@@ -35,19 +35,13 @@ public class User {
 	@Column(name="location_id")
 	private Integer locationId;
 	
-	public Integer getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(Integer locationId) {
-		this.locationId = locationId;
-	}
-
+	public User(){}
+	
 	public User(Integer id){
 		this.id = id;
 	}
 			
-	public User(Integer id, String name, String lastName, String username, String password, String type, Integer age, Integer location){
+	public User(Integer id, String name, String lastName, String username, String password, String type, Integer age, Integer locationId){
 		this.id = id;
 		this.name = name;
 		this.lastName = lastName;
@@ -67,9 +61,16 @@ public class User {
 		this.age = age;
 		this.locationId =locationId;
 	}
-	
-	public User(){}
-	
+		
+	public Integer getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(Integer locationId) {
+		this.locationId = locationId;
+	}
+
+		
 	public Integer getId() {
 		return id;
 	}

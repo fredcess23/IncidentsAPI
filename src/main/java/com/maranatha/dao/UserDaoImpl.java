@@ -15,7 +15,7 @@ import com.util.HibernateUtil;
 
 //@Repository("userQualifier")
 @Repository
-public class UserDaoImpl implements UserDAO {
+public class UserDAOImpl implements UserDAO {
 
 	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
@@ -32,7 +32,6 @@ public class UserDaoImpl implements UserDAO {
         Session session = this.sessionFactory.openSession();
         //List<User> personList = session.createQuery("from usuario").list();
         List<User> personList= (List<User>)session.createCriteria(User.class).list();
-        System.out.println(personList);
         session.close();
         return personList;
 	}
@@ -75,7 +74,6 @@ public class UserDaoImpl implements UserDAO {
         session.getTransaction().commit();
 	}
 
-	@Override
 	public boolean login(User person) {
 	
 		boolean flag=false;
@@ -98,7 +96,6 @@ public class UserDaoImpl implements UserDAO {
         return flag;
 	}
 
-	@Override
 	public User getUser(String name) {
 
 		User user=null;
