@@ -13,34 +13,28 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.maranatha.config.Application;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest
-public class UserRestControllerTest {
+public class IncidentTypeRestControllerTest {
 	
-    
 	@Before
     public void setUp() {
-
     }
 
 	@Test
-	public void canFetchUser(){
+	public void canFetchType(){
 		
 		expect().
 			statusCode(200).
-			body("id",equalTo(100)).
-			body("name",equalTo("Terry")).
-			body("lastName",equalTo("Cruz")).
-			body("username",equalTo("fredyman")).
-			body("password",equalTo("daysyman")).
-			body("type",equalTo("Victim")).
-			body("age",equalTo(1)).
-			body("locationId",equalTo(1)).
+			body("id",equalTo(1)).
+			body("name",equalTo("Kidnapping")).
+			body("description",equalTo("Kidnapping")).
+			body("nombre",equalTo("Secuestro")).
 			when().
-			get("/users/{username}", "fredyman");
+			get("/incident/type/{name}", "Kidnapping");
 		
 	}
+
 }

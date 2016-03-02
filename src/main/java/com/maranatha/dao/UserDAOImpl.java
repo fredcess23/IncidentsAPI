@@ -3,6 +3,7 @@ package com.maranatha.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,17 +23,31 @@ public class UserDAOImpl implements UserDAO {
 
 	public void save(User u) {
 		Session session = this.sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        session.persist(u);
-        tx.commit();
+		Transaction tx = null;
+		try{
+        	tx = session.beginTransaction();
+        	session.persist(u);
+        	tx.commit();
+        }
+        catch(HibernateException e){
+        	e.printStackTrace();
+        	tx.rollback();
+        }
         session.close();		
 	}
 
 	public List<User> list() {
         Session session = this.sessionFactory.openSession();
+        List<User> personList = null;
         //List<User> personList = session.createQuery("from usuario").list();
-        List<User> personList= (List<User>)session.createCriteria(User.class).list();
-        session.close();
+        try{
+        	personList= (List<User>)session.createCriteria(User.class).list();
+        }
+        catch(HibernateException e){
+        	e.printStackTrace();
+            session.close();
+        }
+
         return personList;
 	}
 	
@@ -47,7 +62,8 @@ public class UserDAOImpl implements UserDAO {
 	        user = (List<User>) cr.list();
 	        session.close();			
 		}
-		catch(Exception e){
+		catch(HibernateException e){
+        	e.printStackTrace();			
 			System.out.println("Error");
 		}
        
@@ -106,8 +122,8 @@ public class UserDAOImpl implements UserDAO {
 	        user = (User) cr.list().get(0);
 	        session.close();			
 		}
-		catch(Exception e){
-			System.out.println("Error");
+		catch(HibernateException e){
+        	e.printStackTrace();			
 		}
        
         return user;
