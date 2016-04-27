@@ -32,6 +32,7 @@ dependencies {
     compile 'mysql:mysql-connector-java:5.1.13'
     compile 'commons-httpclient:commons-httpclient:3.1'
   	testCompile 'com.jayway.restassured:rest-assured:2.8.0'
+  	compile 'com.google.guava:guava:11.0.2'
   
   	
 }
