@@ -112,13 +112,13 @@ public class UserDAOImpl implements UserDAO {
         return flag;
 	}
 
-	public User getUser(String name) {
+	public User getUser(User person) {
 
 		User user=null;
 		try{
 			Session session = this.sessionFactory.openSession();
 	        Criteria cr=session.createCriteria(User.class);
-	        cr.add(Restrictions.eq("username", name));
+	        cr.add(Restrictions.eq("username", person.getUsername()));
 	        user = (User) cr.list().get(0);
 	        session.close();			
 		}

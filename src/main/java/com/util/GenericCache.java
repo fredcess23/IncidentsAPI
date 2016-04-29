@@ -29,12 +29,12 @@ public abstract class GenericCache<M, R> {
 
 	               @Override
 	               public List<R> load(M model) throws Exception {
-	                   return send2(model);
+	                   return send2();
 	               }
 	           });
 	
 	//factory methods
 	public abstract R send1(M model);
-	public abstract List<R> send2(M model);
+	public abstract List<R> send2();
 
 }

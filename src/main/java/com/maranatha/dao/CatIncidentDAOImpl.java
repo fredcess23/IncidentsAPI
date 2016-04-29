@@ -16,7 +16,7 @@ public class CatIncidentDAOImpl implements CatIncidentDAO{
 
 	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-	public CatIncident getIncident(String name) {
+	public CatIncident getIncident(CatIncident name) {
 
 		CatIncident incidentType=null;
 		try{

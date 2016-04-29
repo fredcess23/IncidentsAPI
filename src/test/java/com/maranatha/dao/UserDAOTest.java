@@ -22,6 +22,8 @@ public class UserDAOTest {
 	private UserDAO userDAO;
 	private User user1;
 	private User user2;
+	private User userInput;
+	
 	private ArrayList<User> userList;
 
 	
@@ -29,10 +31,14 @@ public class UserDAOTest {
 	public void setUpMok() throws SQLException {
 		
 		userDAO = mock(UserDAOImpl.class);
+		userInput = mock(User.class);
 		user1 = mock(User.class);
 		user2 = mock(User.class);
 		userList = mock(ArrayList.class);
 		
+		
+		when(userInput.getUsername()).thenReturn("tmac");
+
 		when(user1.getId()).thenReturn(100);
 		when(user1.getName()).thenReturn("Terry");
 		when(user1.getLastName()).thenReturn("Cruz");
@@ -82,7 +88,7 @@ public class UserDAOTest {
 	
 	@Test
     public void testGetUser(){
-		when(userDAO.getUser("Terry")).thenReturn(user1); //stubbing
+		when(userDAO.getUser(userInput.getUsername())).thenReturn(user1); //stubbing
 		assertEquals(user1,userDAO.getUser("Terry")); //confirmed that the stubbing performed as expected.
 
 	}
