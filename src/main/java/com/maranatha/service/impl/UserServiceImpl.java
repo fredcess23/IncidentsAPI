@@ -14,15 +14,29 @@ public class UserServiceImpl extends UserService {
 
 	@Autowired
 	//@Qualifier("userQualifier")
-	private UserDAO userDaoImpl;
+	private UserDAO userDao;
+	
+	public UserServiceImpl(UserDAO userDaoImpl){
+		this.userDao = userDaoImpl;
+	}
 	
 	public List<User> getAllUsers() {
-		return userDaoImpl.list();
+		return userDao.list();
 	}
 
 	@Override
 	public User getPersonByUserName(User user) {
-		return userDaoImpl.getUser(user);
+		return userDao.getUser(user.getUsername());
+	}
+
+	@Override
+	public boolean addUser(User user) {
+		boolean flag = false;
+		User currentUser = userDao.getUser(user.getUsername());
+		if(currentUser==null){
+			flag = userDao.addUser(user);
+		}
+		return flag;
 	}
 
 }

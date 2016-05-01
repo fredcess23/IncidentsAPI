@@ -70,14 +70,15 @@ public class UserDAOImpl implements UserDAO {
         return user;
 	}
 
-	public void addUser(User person) {
+	public boolean addUser(User person) {
 		Session session = this.sessionFactory.openSession();
         session.beginTransaction();
         //Save the employee in database
         session.saveOrUpdate(person);
 
         //Commit the transaction
-        session.getTransaction().commit();		
+        session.getTransaction().commit();
+        return true;
 	}
 
 	public void removeUser(Integer personId) {
@@ -112,13 +113,13 @@ public class UserDAOImpl implements UserDAO {
         return flag;
 	}
 
-	public User getUser(User person) {
+	public User getUser(String person) {
 
 		User user=null;
 		try{
 			Session session = this.sessionFactory.openSession();
 	        Criteria cr=session.createCriteria(User.class);
-	        cr.add(Restrictions.eq("username", person.getUsername()));
+	        cr.add(Restrictions.eq("username", person));
 	        user = (User) cr.list().get(0);
 	        session.close();			
 		}

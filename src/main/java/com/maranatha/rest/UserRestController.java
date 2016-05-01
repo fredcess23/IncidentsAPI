@@ -53,7 +53,7 @@ public class UserRestController {
 
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void addUser(@RequestBody User person) {
-		userDaoImpl.addUser(person);
+		userService.addUser(person);
 	}
 
 	@RequestMapping(value = "/users/remove/{personId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

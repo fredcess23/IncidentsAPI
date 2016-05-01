@@ -2,8 +2,14 @@ package com.maranatha.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+
+
+
+//import static org.mockito.Mockito.mock;
+//import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,31 +20,31 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 import com.maranatha.model.User;
+import com.maranatha.service.UserService;
+import com.maranatha.service.impl.UserServiceImpl;
 
 public class UserDAOTest {
 	
 	private UserDAO userDAO;
 	private User user1;
 	private User user2;
-	private User userInput;
+	private UserService userService;
 	
 	private ArrayList<User> userList;
 
 	
 	@Before
 	public void setUpMok() throws SQLException {
-		
 		userDAO = mock(UserDAOImpl.class);
-		userInput = mock(User.class);
 		user1 = mock(User.class);
 		user2 = mock(User.class);
+		userService = new UserServiceImpl(userDAO);
+
 		userList = mock(ArrayList.class);
 		
-		
-		when(userInput.getUsername()).thenReturn("tmac");
-
 		when(user1.getId()).thenReturn(100);
 		when(user1.getName()).thenReturn("Terry");
 		when(user1.getLastName()).thenReturn("Cruz");
@@ -60,9 +66,6 @@ public class UserDAOTest {
 		
 	}
 	
-	public UserDAOTest() {
-    }
-
 	@BeforeClass
 	public static void setUpClass() throws Exception {
 	}
@@ -86,18 +89,51 @@ public class UserDAOTest {
         assertNotNull(user2);
     }
 	
+	
 	@Test
-    public void testGetUser(){
-		when(userDAO.getUser(userInput.getUsername())).thenReturn(user1); //stubbing
-		assertEquals(user1,userDAO.getUser("Terry")); //confirmed that the stubbing performed as expected.
+    public void testNotAddUser(){
+		
+		System.out.println("Stubbing userDAO.getUser(person) to return " + user1);
+		when(userDAO.getUser("fredyman")).thenReturn(user1);
 
+		System.out.println("Calling addUser(person) ...");
+		boolean flag = userService.addUser(user1);
+		
+		System.out.println("Verifying userDAO.getUser(product) is called");
+		verify(userDAO).getUser("fredyman"); //sometimes is redundant!
+		
+		assertFalse(flag);
 	}
 	
+	@Test
+    public void testAddUser(){
+		
+		System.out.println("Stubbing userDAO.getUser(person) to return " + user1);
+		when(userDAO.getUser("fredyman")).thenReturn(null);
+		
+		System.out.println("Stubbing addUser(person) to return true");
+		when(userDAO.addUser(user1)).thenReturn(true);
+
+		System.out.println("Calling addUser(person) ...");
+		boolean flag = userService.addUser(user1);
+		
+        System.out.println("Verifying order of method calls on ProductDao: First call getUser() followed by addUser()");
+        InOrder order = inOrder(userDAO);
+        order.verify(userDAO).getUser("fredyman");
+        order.verify(userDAO).addUser(user1);
+		
+		assertTrue(flag);
+	}	
+	
+	
+	
+	
+	/*
 	@Test(expected=HibernateException.class)
     public void testGetUserFailed(){
-		when(userDAO.getUser("Terry")).thenThrow(HibernateException.class); //stubbing
+		when(userDAO.getUser("ttt")).thenThrow(HibernateException.class); //stubbing
 	}
-	
+	*/
 	@Test
     public void testListUser(){
 		when(userDAO.list()).thenReturn(userList);
@@ -105,9 +141,4 @@ public class UserDAOTest {
 
 	}
 	
-	@Test
-    public void testSave(){
-		
-
-	}
 }
