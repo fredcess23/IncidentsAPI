@@ -12,24 +12,22 @@ import com.maranatha.service.UserService;
 @Repository
 public class UserServiceImpl extends UserService {
 
-	@Autowired
 	//@Qualifier("userQualifier")
 	private UserDAO userDao;
 	
-	public UserServiceImpl(UserDAO userDaoImpl){
-		this.userDao = userDaoImpl;
+	@Autowired
+	public void setUserDAO(UserDAO userDao){
+		this.userDao = userDao;
 	}
 	
 	public List<User> getAllUsers() {
 		return userDao.list();
 	}
 
-	@Override
 	public User getPersonByUserName(User user) {
 		return userDao.getUser(user.getUsername());
 	}
 
-	@Override
 	public boolean addUser(User user) {
 		boolean flag = false;
 		User currentUser = userDao.getUser(user.getUsername());
@@ -38,5 +36,6 @@ public class UserServiceImpl extends UserService {
 		}
 		return flag;
 	}
+
 
 }

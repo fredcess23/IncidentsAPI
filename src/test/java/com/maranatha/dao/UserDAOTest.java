@@ -14,7 +14,6 @@ import static org.mockito.Mockito.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import org.hibernate.HibernateException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -23,15 +22,15 @@ import org.junit.Test;
 import org.mockito.InOrder;
 
 import com.maranatha.model.User;
-import com.maranatha.service.UserService;
 import com.maranatha.service.impl.UserServiceImpl;
+
 
 public class UserDAOTest {
 	
 	private UserDAO userDAO;
 	private User user1;
 	private User user2;
-	private UserService userService;
+	UserServiceImpl userServiceImpl;
 	
 	private ArrayList<User> userList;
 
@@ -41,8 +40,9 @@ public class UserDAOTest {
 		userDAO = mock(UserDAOImpl.class);
 		user1 = mock(User.class);
 		user2 = mock(User.class);
-		userService = new UserServiceImpl(userDAO);
-
+		userServiceImpl = new UserServiceImpl();
+		userServiceImpl.setUserDAO(userDAO);
+		
 		userList = mock(ArrayList.class);
 		
 		when(user1.getId()).thenReturn(100);
@@ -97,7 +97,7 @@ public class UserDAOTest {
 		when(userDAO.getUser("fredyman")).thenReturn(user1);
 
 		System.out.println("Calling addUser(person) ...");
-		boolean flag = userService.addUser(user1);
+		boolean flag = userServiceImpl.addUser(user1);
 		
 		System.out.println("Verifying userDAO.getUser(product) is called");
 		verify(userDAO).getUser("fredyman"); //sometimes is redundant!
@@ -115,7 +115,7 @@ public class UserDAOTest {
 		when(userDAO.addUser(user1)).thenReturn(true);
 
 		System.out.println("Calling addUser(person) ...");
-		boolean flag = userService.addUser(user1);
+		boolean flag = userServiceImpl.addUser(user1);
 		
         System.out.println("Verifying order of method calls on ProductDao: First call getUser() followed by addUser()");
         InOrder order = inOrder(userDAO);
@@ -142,3 +142,4 @@ public class UserDAOTest {
 	}
 	
 }
+
