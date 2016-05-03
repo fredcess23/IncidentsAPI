@@ -3,8 +3,10 @@ package com.maranatha.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +43,22 @@ public class CatIncidentDAOImpl implements CatIncidentDAO{
         return incidentTypes;
 	}
 
+	public List<CatIncident> search(String name) {
+		List<CatIncident> catIncident = null;
+		try{
+			Session session = this.sessionFactory.openSession();
+	        Criteria cr=session.createCriteria(CatIncident.class);
+	        cr.add(Restrictions.ilike("name", name,MatchMode.ANYWHERE));
+	        catIncident = (List<CatIncident>) cr.list();
+	        session.close();			
+		}
+		catch(HibernateException e){
+        	e.printStackTrace();			
+			System.out.println("Error");
+		}
+       
+        return catIncident;
+	}	
 	
 
 }

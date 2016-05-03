@@ -1,15 +1,15 @@
 package com.maranatha.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
-
-
 //import static org.mockito.Mockito.mock;
 //import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ public class UserDAOTest {
 	private UserDAO userDAO;
 	private User user1;
 	private User user2;
+	private User input;
 	UserServiceImpl userServiceImpl;
 	
 	private ArrayList<User> userList;
@@ -40,6 +41,7 @@ public class UserDAOTest {
 		userDAO = mock(UserDAOImpl.class);
 		user1 = mock(User.class);
 		user2 = mock(User.class);
+		input = mock(User.class);
 		userServiceImpl = new UserServiceImpl();
 		userServiceImpl.setUserDAO(userDAO);
 		
@@ -64,6 +66,7 @@ public class UserDAOTest {
 		when(userList.get(0)).thenReturn(user1);
 		when(userList.get(1)).thenReturn(user2);
 		
+		when(input.getUsername()).thenReturn("freyman");
 	}
 	
 	@BeforeClass
@@ -126,6 +129,11 @@ public class UserDAOTest {
 	}	
 	
 	
+	@Test
+    public void testNotRemoveUser(){
+		
+	}
+	
 	
 	
 	/*
@@ -135,9 +143,15 @@ public class UserDAOTest {
 	}
 	*/
 	@Test
-    public void testListUser(){
-		when(userDAO.list()).thenReturn(userList);
-		assertEquals(userList,userDAO.list());
+    public void testGetUser(){
+		
+		System.out.println("Stubbing userDAO.getUser(user) to return " + user1);
+		when(userDAO.getUser(input.getUsername())).thenReturn(user1);
+
+		System.out.println("Calling getPersonByUserName(user) ...");
+		User user = userServiceImpl.getPersonByUserName(input);
+		
+		assertEquals(user,user1);
 
 	}
 	

@@ -13,14 +13,18 @@ import com.maranatha.service.IncidentTypeService;
 public class IncidentTypeServiceImpl extends IncidentTypeService {
 
 	@Autowired
-	private CatIncidentDAO catIncidentDAOImpl;
+	private CatIncidentDAO catIncidentDAO;
+	
+	public void setcatIncidentDAO(CatIncidentDAO catIncidentDAO){
+		this.catIncidentDAO = catIncidentDAO;
+	}
 	
 	 public List<CatIncident> getAllIncidentTypes() {
-		 	return catIncidentDAOImpl.getIncidents();
+		 	return catIncidentDAO.getIncidents();
 	    }
 	 
 	 public CatIncident getIncidentType(CatIncident name) {
-			return catIncidentDAOImpl.getIncident(name);
+			return catIncidentDAO.getIncident(name);
 	    }
 
 	

@@ -8,4 +8,6 @@ public interface CatIncidentDAO {
 
 	public CatIncident getIncident(CatIncident name);
 	public List<CatIncident> getIncidents();
+	List<CatIncident> search(String name);
+	
 }

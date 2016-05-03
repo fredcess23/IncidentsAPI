@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.maranatha.dao.UserDAO;
+import com.maranatha.dto.GenericDTO;
 import com.maranatha.model.User;
 import com.maranatha.service.UserService;
 
@@ -46,8 +48,8 @@ public class UserRestController {
 	}
 
 	@RequestMapping(value = "/users/search/{person}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<User> searchPerson(@PathVariable("person") String person) {
-		return userDaoImpl.search(person);
+	public List<GenericDTO> searchPerson(@PathVariable("person") String person) {
+		return userService.search(person);
 	}
 
 	@RequestMapping(value = "/users/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
