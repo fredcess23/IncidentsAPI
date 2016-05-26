@@ -18,6 +18,7 @@ public class UserServiceImpl extends UserService {
 
 	// @Qualifier("userQualifier")
 	private UserDAO userDao;
+	@Autowired
 	private CatIncidentDAO catIncidentDao;
 
 	@Autowired
@@ -61,7 +62,8 @@ public class UserServiceImpl extends UserService {
 			genericElem.setValue(elem);
 			generics.add(genericElem);
 		});
-
+		
+		
 		return generics;
 	}
 

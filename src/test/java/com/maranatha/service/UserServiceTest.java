@@ -1,16 +1,15 @@
-package com.maranatha.dao;
+package com.maranatha.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-//import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 //import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,32 +17,38 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InOrder;
 
+import com.maranatha.dao.UserDAO;
+import com.maranatha.dao.UserDAOImpl;
 import com.maranatha.model.User;
+import com.maranatha.service.UserService;
 import com.maranatha.service.impl.UserServiceImpl;
 
 
-public class UserDAOTest {
+public class UserServiceTest {
 	
 	private UserDAO userDAO;
+	private UserServiceImpl userService;
+	
 	private User user1;
 	private User user2;
 	private User input;
-	UserServiceImpl userServiceImpl;
-	
 	private ArrayList<User> userList;
 
 	
 	@Before
 	public void setUpMok() throws SQLException {
+		
 		userDAO = mock(UserDAOImpl.class);
+		userService = new UserServiceImpl();
+		userService.setUserDAO(userDAO);
+		
 		user1 = mock(User.class);
 		user2 = mock(User.class);
 		input = mock(User.class);
-		userServiceImpl = new UserServiceImpl();
-		userServiceImpl.setUserDAO(userDAO);
 		
 		userList = mock(ArrayList.class);
 		
@@ -94,22 +99,38 @@ public class UserDAOTest {
 	
 	
 	@Test
-    public void testNotAddUser(){
+    public void shouldAddUser(){
 		
-		System.out.println("Stubbing userDAO.getUser(person) to return " + user1);
-		when(userDAO.getUser("fredyman")).thenReturn(user1);
+		System.out.println("Stubbing getUser(person) to return null");
+		when(userDAO.getUser(user1.getUsername())).thenReturn(null);		
 
-		System.out.println("Calling addUser(person) ...");
-		boolean flag = userServiceImpl.addUser(user1);
+		System.out.println("Stubbing addUser(person) to return false");
+		when(userDAO.addUser(user1)).thenReturn(true);
 		
-		System.out.println("Verifying userDAO.getUser(product) is called");
-		verify(userDAO).getUser("fredyman"); //sometimes is redundant!
+		System.out.println("Calling userService.addUser(user1) ...");
+		boolean flag = userService.addUser(user1);
 		
-		assertFalse(flag);
+		System.out.println("Verifying userService.addUser(user1) was called");
+		verify(userDAO).addUser(user1); //sometimes is redundant!
+		
+		assertTrue(flag);
 	}
 	
+	@Test(expected=IOException.class)
+	public void testForIOException() throws IOException {
+	  // create an configure mock
+	  OutputStream mockStream = mock(OutputStream.class);
+	  doThrow(new IOException()).when(mockStream).close();
+	 
+	  // use mock
+	  OutputStreamWriter streamWriter= new OutputStreamWriter(mockStream);
+	  streamWriter.close();
+	} 
+
+	
 	@Test
-    public void testAddUser(){
+	@Ignore
+    public void testNoUser(){
 		
 		System.out.println("Stubbing userDAO.getUser(person) to return " + user1);
 		when(userDAO.getUser("fredyman")).thenReturn(null);
@@ -117,8 +138,8 @@ public class UserDAOTest {
 		System.out.println("Stubbing addUser(person) to return true");
 		when(userDAO.addUser(user1)).thenReturn(true);
 
-		System.out.println("Calling addUser(person) ...");
-		boolean flag = userServiceImpl.addUser(user1);
+		System.out.println("Calling userService.addUser(user1) ...");
+		boolean flag = userService.addUser(user1);
 		
         System.out.println("Verifying order of method calls on ProductDao: First call getUser() followed by addUser()");
         InOrder order = inOrder(userDAO);
@@ -149,7 +170,7 @@ public class UserDAOTest {
 		when(userDAO.getUser(input.getUsername())).thenReturn(user1);
 
 		System.out.println("Calling getPersonByUserName(user) ...");
-		User user = userServiceImpl.getPersonByUserName(input);
+		User user = userDAO.getUser(input.getUsername());
 		
 		assertEquals(user,user1);
 

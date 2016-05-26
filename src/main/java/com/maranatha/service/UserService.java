@@ -2,6 +2,7 @@ package com.maranatha.service;
 
 import java.util.List;
 
+import com.maranatha.dao.UserDAO;
 import com.maranatha.dto.GenericDTO;
 import com.maranatha.model.User;
 import com.util.GenericCache;
